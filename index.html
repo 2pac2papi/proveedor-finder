@@ -3,10 +3,13 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ProveedorFinder — Google CSE (sin tarjeta)</title>
-  <meta name="description" content="Busca proveedores con Google CSE embebido (sin API key) y extrae Nombre, Email, Teléfono, Dirección, Ciudad y Web. Exporta a CSV." />
+  <title>ProveedorFinder — Ayudando en la Gestión de Compras</title>
+  <meta name="description" content="ProveedorFinder: de Google a Excel en segundos. Encuentra proveedores y extrae nombre, email, teléfono, dirección y ciudad. Versión Beta — Antonio." />
+  <meta property="og:title" content="ProveedorFinder — Ayudando en la Gestión de Compras" />
+  <meta property="og:description" content="Encuentra proveedores y exporta a CSV. Versión Beta — Antonio." />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230b1220'/><text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-family='Arial' font-size='28' fill='%23ffffff'>PF</text></svg>">
   <link rel="stylesheet" href="styles.css" />
+  <!-- Google CSE embed -->
   <script async src="https://cse.google.com/cse.js?cx=202738e6656c24c82"></script>
 </head>
 <body>
@@ -15,11 +18,12 @@
       <div class="logo">PF</div>
       <div class="title">
         <h1>Proveedor<span>Finder</span></h1>
-        <p class="tag">Motor: Google CSE (sin tarjeta)</p>
+        <p class="tag">Ayudando en la Gestión de Compras</p>
       </div>
     </div>
     <nav class="actions">
       <button id="btnCSV" type="button" disabled>Exportar CSV</button>
+      <a class="cta" href="https://wa.me/51964134040?text=Hola%20Antonio%2C%20vi%20ProveedorFinder%20y%20quiero%20hablar%20contigo." target="_blank" rel="noopener">Contáctame</a>
     </nav>
   </header>
 
@@ -37,10 +41,11 @@
           </div>
           <div class="field">
             <label>Resultados</label>
-            <input id="limit" type="number" min="5" max="30" value="15" />
+            <input id="limit" type="number" min="5" max="30" value="10" />
           </div>
         </div>
         <div class="form-actions">
+          <label class="chk"><input id="fast" type="checkbox" checked/> Modo rápido</label>
           <button id="btnBuscar">Buscar</button>
           <span id="status" class="status"></span>
         </div>
@@ -66,17 +71,17 @@
         </table>
       </div>
     </section>
-
-    <!-- Contenedor de resultados para CSE (oculto) -->
-    <section style="display:none">
-      <div class="gcse-searchresults-only" data-gname="pf"></div>
-      <div id="pf"></div>
-    </section>
   </main>
 
   <footer class="footer">
-    <small>Hecho para Compras — Google CSE embed + Cloudflare Worker</small>
+    <small>
+      <strong>Versión Beta</strong> — Antonio • contacto:
+      <a href="mailto:antonioricardoconte@hotmail.com">antonioricardoconte@hotmail.com</a> · WhatsApp:
+      <a href="https://wa.me/51964134040" target="_blank" rel="noopener">+51964134040</a>
+    </small>
   </footer>
+
+  <a class="fab" href="https://wa.me/51964134040?text=Hola%20Antonio%2C%20quiero%20cotizar%20con%20ProveedorFinder." target="_blank" rel="noopener" aria-label="Contáctame por WhatsApp">✉️</a>
 
   <script>
     window.WORKER_URL = "https://proveedorfinder.acontec91.workers.dev";
