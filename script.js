@@ -18,25 +18,6 @@ const toCSV = (rows) => {
   return lines.join('\n');
 };
 
-const render = (items=[]) => {
-  const tb = $("#tbl tbody"); tb.innerHTML = '';
-  items.forEach((it, i) => {
-    const tr = document.createElement('tr');
-    const host = it.website ? new URL(it.website).hostname.replace(/^www\./,'') : '';
-    tr.innerHTML = `
-      <td>${i+1}</td>
-      <td>${it.name||''}</td>
-      <td>${it.email||''}</td>
-      <td>${it.phone||''}</td>
-      <td>${it.address||''}</td>
-      <td><span class="badge">${it.city||''}</span></td>
-      <td>${it.website?`<a href="${it.website}" target="_blank" rel="noopener">${host}</a>`:''}</td>
-      <td>${it.source?`<a href="${it.source}" target="_blank" rel="noopener">ver</a>`:''}</td>`;
-    tb.appendChild(tr);
-  });
-  $("#btnCSV").disabled = items.length === 0;
-};
-
 const appendRows = (rows) => {
   const start = document.querySelectorAll("#tbl tbody tr").length;
   const tb = $("#tbl tbody");
@@ -55,7 +36,7 @@ const appendRows = (rows) => {
       <td>${it.source?`<a href="${it.source}" target="_blank" rel="noopener">ver</a>`:''}</td>`;
     tb.appendChild(tr);
   });
-  $("#btnCSV").disabled = document.querySelectorAll("#tbl tbody tr").length === 0;
+  document.getElementById("btnCSV").disabled = document.querySelectorAll("#tbl tbody tr").length === 0;
 };
 
 // Espera a que CSE esté listo
@@ -119,24 +100,24 @@ async function processInBatches(allUrls, city, limit, batchSize) {
   status(`Listo: ${total} proveedores`);
 }
 
-$("#btnBuscar").addEventListener('click', async () => {
-  const q = $("#q").value.trim();
-  const city = $("#city").value.trim();
-  let limit = Math.max(5, Math.min(30, parseInt($("#limit").value || '10')));
-  const fast = $("#fast").checked;
+document.getElementById("btnBuscar").addEventListener('click', async () => {
+  const q = document.getElementById("q").value.trim();
+  const city = document.getElementById("city").value.trim();
+  let limit = Math.max(5, Math.min(30, parseInt(document.getElementById("limit").value || '10')));
+  const fast = document.getElementById("fast").checked;
   if (fast) limit = Math.min(limit, 10); // limitar para velocidad
   if (!q) { alert('Ingresa un término de búsqueda'); return; }
-  $("#tbl tbody").innerHTML = ''; status('Buscando en Google…');
+  document.querySelector("#tbl tbody").innerHTML = ''; status('Buscando en Google…');
 
   try {
     await executeCSE(city ? `${q} ${city}` : q);
-    await new Promise(r => setTimeout(r, 900));
+    await new Promise(r => setTimeout(r, 1000));
     let urls = getLinksOnce();
     if (!urls.length) {
-      await new Promise(r => setTimeout(r, 900));
+      await new Promise(r => setTimeout(r, 1200));
       urls = getLinksOnce();
     }
-    if (!urls.length) { status('Sin resultados. Prueba un término más general.'); return; }
+    if (!urls.length) { status('Sin resultados. Asegúrate de no tener bloqueadores/Brave Shields activos y prueba un término más general.'); return; }
 
     const batchSize = fast ? 4 : 6;
     await processInBatches(urls, city, limit, batchSize);
