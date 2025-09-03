@@ -41,10 +41,10 @@ const appendRows = (rows) => {
 
 // Espera a que CSE esté listo
 const waitForCSE = () => new Promise(resolve => {
-  const start = Date.now();
+  const until = Date.now() + 8000;
   const check = () => {
-    if (window.google?.search?.cse?.element) return resolve();
-    if (Date.now() - start > 8000) return resolve(); // no bloquear
+    if (document.documentElement.getAttribute('data-cse-ready') === '1' || (window.google?.search?.cse?.element)) return resolve();
+    if (Date.now() > until) return resolve();
     setTimeout(check, 120);
   };
   check();
@@ -71,8 +71,15 @@ const getLinksOnce = () => {
   return urls;
 };
 
+const ensureRendered = () => {
+  // Fuerza a que el contenedor tenga área para que Google inserte resultados
+  const holder = document.querySelector('.invisible-cse');
+  if (holder) { holder.style.width = '360px'; holder.style.height = '360px'; }
+};
+
 const executeCSE = async (query) => {
   await waitForCSE();
+  ensureRendered();
   const existing = window.google?.search?.cse?.element?.getElement('pf');
   if (!existing) {
     window.google?.search?.cse?.element?.render({ div: 'pf', tag: 'searchresults-only', gname: 'pf' });
@@ -105,19 +112,23 @@ document.getElementById("btnBuscar").addEventListener('click', async () => {
   const city = document.getElementById("city").value.trim();
   let limit = Math.max(5, Math.min(30, parseInt(document.getElementById("limit").value || '10')));
   const fast = document.getElementById("fast").checked;
-  if (fast) limit = Math.min(limit, 10); // limitar para velocidad
+  if (fast) limit = Math.min(limit, 10);
   if (!q) { alert('Ingresa un término de búsqueda'); return; }
   document.querySelector("#tbl tbody").innerHTML = ''; status('Buscando en Google…');
 
   try {
     await executeCSE(city ? `${q} ${city}` : q);
+    // Recolecta 2 veces con pequeñas esperas
     await new Promise(r => setTimeout(r, 1000));
     let urls = getLinksOnce();
     if (!urls.length) {
-      await new Promise(r => setTimeout(r, 1200));
+      await new Promise(r => setTimeout(r, 1300));
       urls = getLinksOnce();
     }
-    if (!urls.length) { status('Sin resultados. Asegúrate de no tener bloqueadores/Brave Shields activos y prueba un término más general.'); return; }
+    if (!urls.length) {
+      status('Sin resultados. Desactiva bloqueadores (uBlock/AdGuard) o Brave Shields para esta página y recarga.');
+      return;
+    }
 
     const batchSize = fast ? 4 : 6;
     await processInBatches(urls, city, limit, batchSize);

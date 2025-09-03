@@ -4,12 +4,20 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ProveedorFinder — Ayudando en la Gestión de Compras</title>
-  <meta name="description" content="ProveedorFinder: de Google a Excel en segundos. Encuentra proveedores y extrae nombre, email, teléfono, dirección y ciudad. Versión Beta — Antonio." />
+  <meta name="description" content="ProveedorFinder: de Google a Excel en segundos. Encuentra proveedores y extrae nombre, email, teléfono, dirección y ciudad. Versión Beta — Antonio Ricardo Conte." />
   <meta property="og:title" content="ProveedorFinder — Ayudando en la Gestión de Compras" />
-  <meta property="og:description" content="Encuentra proveedores y exporta a CSV. Versión Beta — Antonio." />
+  <meta property="og:description" content="Encuentra proveedores y exporta a CSV. Versión Beta — Antonio Ricardo Conte." />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230b1220'/><text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-family='Arial' font-size='28' fill='%23ffffff'>PF</text></svg>">
   <link rel="stylesheet" href="styles.css" />
   <!-- Google CSE embed -->
+  <script>
+    // Callback para saber cuándo CSE está listo
+    window.__gcse = {
+      callback: function() {
+        document.documentElement.setAttribute('data-cse-ready','1');
+      }
+    };
+  </script>
   <script async src="https://cse.google.com/cse.js?cx=202738e6656c24c82"></script>
 </head>
 <body>
@@ -23,7 +31,7 @@
     </div>
     <nav class="actions">
       <button id="btnCSV" type="button" disabled>Exportar CSV</button>
-      <a class="cta" href="https://wa.me/51964134040?text=Hola%20Antonio%2C%20vi%20ProveedorFinder%20y%20quiero%20hablar%20contigo." target="_blank" rel="noopener">Contáctame</a>
+      <!-- (Se retiró el botón Contáctame del header) -->
     </nav>
   </header>
 
@@ -72,8 +80,8 @@
       </div>
     </section>
 
-    <!-- 🔒 Contenedores ocultos para Google CSE (necesarios para obtener los links) -->
-    <section style="display:none">
+    <!-- 🔒 CSE oculto pero renderizable (NO usar display:none) -->
+    <section class="invisible-cse" aria-hidden="true">
       <div class="gcse-searchresults-only" data-gname="pf"></div>
       <div id="pf"></div>
     </section>
@@ -81,13 +89,18 @@
 
   <footer class="footer">
     <small>
-      <strong>Versión Beta</strong> — Antonio • contacto:
-      <a href="mailto:antonioricardoconte@hotmail.com">antonioricardoconte@hotmail.com</a> · WhatsApp:
-      <a href="https://wa.me/51964134040" target="_blank" rel="noopener">+51964134040</a>
+      <strong>Versión Beta</strong> — Antonio Ricardo Conte • contacto:
+      <a href="mailto:antonioricardoconte@hotmail.com">antonioricardoconte@hotmail.com</a>
     </small>
   </footer>
 
-  <a class="fab" href="https://wa.me/51964134040?text=Hola%20Antonio%2C%20quiero%20cotizar%20con%20ProveedorFinder." target="_blank" rel="noopener" aria-label="Contáctame por WhatsApp">✉️</a>
+  <!-- Botón flotante WhatsApp (ícono) -->
+  <a class="fab" href="https://wa.me/51964134040?text=Hola%20Antonio%2C%20quiero%20cotizar%20con%20ProveedorFinder." target="_blank" rel="noopener" aria-label="Contáctame por WhatsApp">
+    <svg viewBox="0 0 32 32" width="24" height="24" aria-hidden="true">
+      <path d="M19.11 17.34c-.27-.14-1.6-.79-1.85-.88-.25-.09-.43-.14-.61.14-.18.27-.7.87-.86 1.05-.16.18-.32.2-.59.07-.27-.14-1.13-.42-2.16-1.34-.8-.71-1.34-1.59-1.5-1.86-.16-.27-.02-.42.12-.56.12-.12.27-.32.41-.48.14-.16.18-.27.27-.45.09-.18.05-.34-.02-.48-.07-.14-.61-1.46-.84-2-.22-.53-.45-.46-.61-.47-.16-.01-.34-.01-.52-.01s-.48.07-.73.34c-.25.27-.96.94-.96 2.29 0 1.35.99 2.65 1.13 2.83.14.18 1.94 2.96 4.93 4.04.69.27 1.22.43 1.64.55.69.22 1.32.19 1.82.11.56-.08 1.6-.65 1.82-1.28.23-.63.23-1.17.16-1.28-.07-.11-.25-.18-.52-.32z" fill="#06210f"></path>
+      <path d="M26.6 5.4C23.9 2.7 20.2 1 16.2 1 8.3 1 2 7.3 2 15.2c0 2.5.7 4.9 2 7l-1.3 4.8 4.9-1.3c2 .9 4.1 1.4 6.3 1.4 7.9 0 14.2-6.3 14.2-14.2 0-3.8-1.5-7.5-4.3-10.5zm-10.4 22.8c-1.9 0-3.7-.5-5.3-1.3l-.4-.2-2.9.8.8-2.8-.2-.4c-1.1-1.8-1.7-3.8-1.7-5.9 0-6.3 5.1-11.4 11.4-11.4 3 0 5.8 1.2 7.9 3.5 2.1 2.2 3.3 5.1 3.3 8.2-.1 6.3-5.2 11.4-11.4 11.4z" fill="#25D366"></path>
+    </svg>
+  </a>
 
   <script>
     window.WORKER_URL = "https://proveedorfinder.acontec91.workers.dev";
