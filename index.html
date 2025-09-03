@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ProveedorFinder — Google CSE (sin tarjeta)</title>
+  <meta name="description" content="Busca proveedores con Google CSE embebido (sin API key) y extrae Nombre, Email, Teléfono, Dirección, Ciudad y Web. Exporta a CSV." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230b1220'/><text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-family='Arial' font-size='28' fill='%23ffffff'>PF</text></svg>">
+  <link rel="stylesheet" href="styles.css" />
+  <script async src="https://cse.google.com/cse.js?cx=202738e6656c24c82"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">PF</div>
+      <div class="title">
+        <h1>Proveedor<span>Finder</span></h1>
+        <p class="tag">Motor: Google CSE (sin tarjeta)</p>
+      </div>
+    </div>
+    <nav class="actions">
+      <button id="btnCSV" type="button" disabled>Exportar CSV</button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <form id="frm" onsubmit="return false;">
+        <div class="grid">
+          <div class="field">
+            <label>Término a buscar</label>
+            <input id="q" placeholder="Ej: válvulas API, compresores GA, catering industrial..." />
+          </div>
+          <div class="field">
+            <label>Ciudad (opcional)</label>
+            <input id="city" placeholder="Ej: Lima, Arequipa, Iquitos" />
+          </div>
+          <div class="field">
+            <label>Resultados</label>
+            <input id="limit" type="number" min="5" max="30" value="15" />
+          </div>
+        </div>
+        <div class="form-actions">
+          <button id="btnBuscar">Buscar</button>
+          <span id="status" class="status"></span>
+        </div>
+      </form>
+    </section>
+
+    <section class="card">
+      <div class="table-wrap">
+        <table id="tbl">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Nombre</th>
+              <th>Email</th>
+              <th>Teléfono</th>
+              <th>Dirección</th>
+              <th>Ciudad</th>
+              <th>Web</th>
+              <th>Fuente</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Contenedor de resultados para CSE (oculto) -->
+    <section style="display:none">
+      <div class="gcse-searchresults-only" data-gname="pf"></div>
+      <div id="pf"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <small>Hecho para Compras — Google CSE embed + Cloudflare Worker</small>
+  </footer>
+
+  <script>
+    window.WORKER_URL = "https://proveedorfinder.acontec91.workers.dev";
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>
